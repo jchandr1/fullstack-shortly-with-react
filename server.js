@@ -9,7 +9,6 @@ server.use((req, res, next) => {
   next();
 });
 
-
 const app = server.listen(3000, function() {
   const host = app.address().address;
   const port = app.address().port;

@@ -5,7 +5,7 @@ export default class ExpenseList extends React.Component {
     return (
       <div className="expense-list">
         expenseList.map(expense => {
-          <Expense key={expense.name}
+          <Expense key={expense.id} item={expense}
         })
       </div>
     );
