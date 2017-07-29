@@ -2,6 +2,8 @@ const express = require('express');
 const server = express();
 const parser = require('body-parser');
 const db = require('./db');
+const axios = require('axios');
+const apiUrl = 'http://api.fixer.io';
 
 server.use(express.static(__dirname + '/www'));
 server.use(parser.json());
@@ -11,11 +13,18 @@ server.use((req, res, next) => {
   next();
 });
 
+server.get('/expense', (req, res) => {
+  db.query('SELECT * FROM expenses', (err, data) => res.status(200).send(data));
+});
+
 server.post('/expense', (req, res) => {
-  console.log(req.body);
-  db.query('INSERT INTO expenses (')
-  res.redirect('/');
-})
+  axios.get(apiUrl + '/latest?symbols=USD,' + req.body.currency)
+  .then(response => {
+    req.body.USDVal = req.body.cost * response.data.rates.USD / (response.data.rates[req.body.currency] || 1);
+    db.query('INSERT INTO expenses SET ?', req.body);
+  })
+  .catch(err => console.log(err));
+});
 
 const app = server.listen(3000, function() {
   const host = app.address().address;
