@@ -6,7 +6,6 @@ export default class Expense extends React.Component {
     this.state = {
       expense: prop.item,
     }
-    console.log('expense = ', this.state.expense);
   }
 
   render(prop) {
@@ -14,7 +13,7 @@ export default class Expense extends React.Component {
       <tbody>
         <tr className="expense">
           <th className="expense-name">{this.state.expense.name}</th>
-          <th className="expense-amt">{this.state.expense.dollarVal}</th>
+          <th className="expense-amt">{this.state.expense.USDVal}</th>
         </tr>
       </tbody>
     );
