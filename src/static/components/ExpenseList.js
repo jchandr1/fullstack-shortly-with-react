@@ -4,10 +4,15 @@ import Expense from './Expense';
 import axios from 'axios';
 
 export default class ExpenseList extends React.Component {
-  constructor(props) {
+  constructor() {
     super();
+    this.handleName = this.handleName.bind(this);
+    this.handleCost = this.handleCost.bind(this);
+    this.handleCurrency = this.handleCurrency.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+
     this.state = {
-      expenseList: data,
+      expenseList: [],
       currency: 'USD',
       name: '',
       cost: '',
@@ -44,11 +49,15 @@ export default class ExpenseList extends React.Component {
         "TRY",
         "ZAR",
       ],
+      interval: setInterval(this.getAllExpenses.bind(this), 500),
     }
-    this.handleName = this.handleName.bind(this);
-    this.handleCost = this.handleCost.bind(this);
-    this.handleCurrency = this.handleCurrency.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  getAllExpenses() {
+    axios.get('/expense')
+    .then((response) => {
+      this.setState({expenseList: response.data});
+    }).catch(err => clearInterval(this.state.interval));
   }
 
   handleName(event) {
@@ -65,7 +74,9 @@ export default class ExpenseList extends React.Component {
 
   handleSubmit(event) {
     const expense = {name: this.state.name, cost: this.state.cost, currency: this.state.currency};
-    axios.post('/expense', expense);
+    axios.post('/expense', expense)
+    event.preventDefault();
+    this.setState({name: '', cost: '', currency: 'USD'});
   }
 
   render() {
@@ -103,36 +114,3 @@ export default class ExpenseList extends React.Component {
     );
   }
 }
-
-
-// 1.4732
-// 1.9558
-// 3.7015
-// 1.4712
-// 1.1357
-// 7.9087
-// 26.048
-// 7.4364
-// 0.89568
-// 9.1613
-// 7.412
-// 304.93
-// 15639
-// 4.1765
-// 75.256
-// 130.37
-// 1317.6
-// 20.809
-// 5.0229
-// 9.3195
-// 1.5694
-// 59.207
-// 4.2493
-// 4.558
-// 69.832
-// 9.5355
-// 1.5947
-// 39.146
-// 4.1462
-// 1.1729
-// 15.281
