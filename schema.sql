@@ -6,6 +6,7 @@ USE budget;
 
 DROP TABLE IF EXISTS expenses;
 DROP TABLE IF EXISTS funds;
+DROP TABLE IF EXISTS users;
 
 CREATE TABLE expenses (
   id INTEGER AUTO_INCREMENT,
@@ -21,3 +22,11 @@ CREATE TABLE fundsLeft (
   amt INTEGER,
   PRIMARY KEY (id)
 );
+
+CREATE TABLE users (
+  id INTEGER AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(50),
+  password VARCHAR(50)
+);
+
+INSERT INTO users (username, password) VALUE ("justin", "justin");

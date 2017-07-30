@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ExpenseList from './static/components/ExpenseList'
+import App from './static/components/App'
  
 document.addEventListener('DOMContentLoaded', function() {
   ReactDOM.render(
-    React.createElement(ExpenseList),
+    React.createElement(App),
     document.getElementById('mount')
   );
 });
