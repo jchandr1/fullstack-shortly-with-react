@@ -8,7 +8,6 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.getAllExpenses = this.getAllExpenses.bind(this);
-    this.checkUser = this.checkUser.bind(this);
     this.createUser = this.createUser.bind(this);
     this.logIn = this.logIn.bind(this);
 
@@ -21,22 +20,25 @@ export default class App extends React.Component {
   }
 
   getAllExpenses() {
-    axios.get('/expense')
+    axios.get('/expenses')
     .then((response) => {
       this.setState({ expenseList: response.data });
     }).catch(err => console.log('get expense error'));
   }
 
-  checkUser(username) {
-    axios.get('/users')
+  logIn(username, password) {
+    console.log('username = ', username);
+    axios.get('/users/' + username)
     .then((response) => {
       console.log(response.data);
-    }).catch(err => console.log('get users error'));
-    
-  }
-
-  logIn(username, password) {
-    console.log('logging in');
+      if (response.data[0] === password) {
+        console.log('logged in');
+        this.setState({ loggedIn: true });
+      } else {
+        console.log('Username and password do not match');
+        this.setState({ loggedIn: false });
+      }
+    }).catch(err => console.log('get users error', err));
   }
 
   createUser(username, password) {

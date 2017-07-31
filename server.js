@@ -13,12 +13,22 @@ server.use((req, res, next) => {
   next();
 });
 
-server.get('/expense', (req, res) => {
+server.get('/expenses', (req, res) => {
   db.query('SELECT * FROM expenses', (err, data) => res.status(200).send(data));
 });
 
-server.post('/expense', (req, res) => {
+server.post('/expenses', (req, res) => {
   db.query('INSERT INTO expenses SET ?', req.body);
+  res.end();
+});
+
+server.get('/users/:user', (req, res) => {
+  console.log(req.params.user);
+  db.query('SELECT password FROM users', (err, data) => res.status(200).send(data));
+});
+
+server.post('/users', (req, res) => {
+  db.query('INSERT INTO users SET ?', req.body);
   res.end();
 });
 
