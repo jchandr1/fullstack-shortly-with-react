@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --progress --colors --watch",
-    "start": "nodemon server.js",
+    "server": "nodemon server.js",
+    "start": "webpack && node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
