@@ -8,11 +8,15 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.getAllExpenses = this.getAllExpenses.bind(this);
+    this.checkUser = this.checkUser.bind(this);
+    this.createUser = this.createUser.bind(this);
     this.logIn = this.logIn.bind(this);
+
     this.state = {
       expenseList: [],
-      loggedIn: true,
+      loggedIn: false,
     }
+
     this.getAllExpenses()
   }
 
@@ -20,21 +24,29 @@ export default class App extends React.Component {
     axios.get('/expense')
     .then((response) => {
       this.setState({ expenseList: response.data });
-    }).catch(err => console.log('get expense error\n', err));
+    }).catch(err => console.log('get expense error'));
   }
 
   checkUser(username) {
+    axios.get('/users')
+    .then((response) => {
+      console.log(response.data);
+    }).catch(err => console.log('get users error'));
     
   }
 
-  logIn() {
-    
+  logIn(username, password) {
+    console.log('logging in');
+  }
+
+  createUser(username, password) {
+    console.log('creating user');
   }
 
   render() {
     return (
       <div>
-        <Login loggedIn={this.state.loggedIn} />
+        <Login loggedIn={this.state.loggedIn} logIn={this.logIn} createUser={this.createUser} />
         <ExpenseEntry loggedIn={this.state.loggedIn} getAll={this.getAllExpenses} />
         <ExpenseList loggedIn={this.state.loggedIn} expenseList={this.state.expenseList} />
       </div>
