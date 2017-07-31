@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 export default class ExpenseEntry extends React.Component {
   constructor(prop) {
@@ -63,10 +64,17 @@ export default class ExpenseEntry extends React.Component {
   }
 
   handleSubmit(event) {
-    const expense = {name: this.state.name, cost: this.state.cost, currency: this.state.currency};
-    axios.post('/expense', expense)
+    axios.get('http://api.fixer.io/latest?symbols=USD,' + this.state.currency)
+    .then(response => {
+      let USDVal = this.state.cost * response.data.rates.USD / (response.data.rates[this.state.currency] || 1);
+      axios.post('/expense', {name: this.state.name, cost: this.state.cost, currency: this.state.currency, USDVal: USDVal})
+      .then(() => {
+        this.setState({name: '', cost: '', currency: 'USD'});
+      })
+      .catch(() => console.log('server post error'));
+    })
+    .catch(err => console.log('api get error'));
     event.preventDefault();
-    this.setState({name: '', cost: '', currency: 'USD'});
   }
 
   render() {

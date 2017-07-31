@@ -2,6 +2,7 @@ import React from 'react';
 import ExpenseEntry from './ExpenseEntry';
 import ExpenseList from './ExpenseList';
 import Login from './Login';
+import axios from 'axios';
 
 export default class App extends React.Component {
   constructor() {
@@ -10,6 +11,10 @@ export default class App extends React.Component {
     this.state = {
       loggedIn: true,
     }
+  }
+
+  checkUser(username) {
+    
   }
 
   logIn() {

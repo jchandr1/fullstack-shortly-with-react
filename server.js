@@ -18,12 +18,7 @@ server.get('/expense', (req, res) => {
 });
 
 server.post('/expense', (req, res) => {
-  axios.get(apiUrl + '/latest?symbols=USD,' + req.body.currency)
-  .then(response => {
-    req.body.USDVal = req.body.cost * response.data.rates.USD / (response.data.rates[req.body.currency] || 1);
-    db.query('INSERT INTO expenses SET ?', req.body);
-  })
-  .catch(err => console.log(err));
+  db.query('INSERT INTO expenses SET ?', req.body)
 });
 
 const app = server.listen(3000, function() {
