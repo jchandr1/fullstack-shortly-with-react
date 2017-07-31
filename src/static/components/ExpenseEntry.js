@@ -10,6 +10,7 @@ export default class ExpenseEntry extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
 
     this.state = {
+      getAll: prop.getAll,
       loggedIn: prop.loggedIn,
       expenseList: [],
       currency: 'USD',
@@ -69,9 +70,10 @@ export default class ExpenseEntry extends React.Component {
       let USDVal = this.state.cost * response.data.rates.USD / (response.data.rates[this.state.currency] || 1);
       axios.post('/expense', {name: this.state.name, cost: this.state.cost, currency: this.state.currency, USDVal: USDVal})
       .then(() => {
-        this.setState({name: '', cost: '', currency: 'USD'});
+        this.setState({ name: '', cost: '', currency: 'USD' });
+        this.state.getAll();
       })
-      .catch(() => console.log('server post error'));
+      .catch((err) => console.log('server post error', err));
     })
     .catch(err => console.log('api get error'));
     event.preventDefault();

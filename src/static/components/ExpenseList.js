@@ -3,20 +3,16 @@ import Expense from './Expense';
 import axios from 'axios';
 
 export default class ExpenseList extends React.Component {
-  constructor(prop) {
-    super(prop);
+  constructor(props) {
+    super(props);
     this.state = {
-      loggedIn: prop.loggedIn,
+      loggedIn: props.loggedIn,
       expenseList: [],
-      interval: setInterval(this.getAllExpenses.bind(this), 500),
     }
   }
 
-  getAllExpenses() {
-    axios.get('/expense')
-    .then((response) => {
-      this.setState({expenseList: response.data});
-    }).catch(err => clearInterval(this.state.interval));
+  componentWillReceiveProps(nextProps) {
+    this.setState({ expenseList: nextProps.expenseList});
   }
 
   render() {

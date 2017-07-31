@@ -18,7 +18,8 @@ server.get('/expense', (req, res) => {
 });
 
 server.post('/expense', (req, res) => {
-  db.query('INSERT INTO expenses SET ?', req.body)
+  db.query('INSERT INTO expenses SET ?', req.body);
+  res.end();
 });
 
 const app = server.listen(3000, function() {
