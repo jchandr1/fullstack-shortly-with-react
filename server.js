@@ -13,14 +13,16 @@ server.use((req, res, next) => {
   next();
 });
 
-server.get('/expenses', (req, res) => {
-  db.query('SELECT * FROM expenses', (err, data) => res.status(200).send(data));
+server.get('/expenses/:user', (req, res) => {
+  // db.query('SELECT * FROM expenses', (err, data) => res.status(200).send(data));
+  db.query('SELECT expenses.* FROM expenses JOIN users ON users.id=expenses.user_id WHERE users.username="' + req.params.user + '";', (err, data) => {
+    res.status(200).send(data);
+  });
 });
 
-server.post('/expenses/:username', (req, res) => {
-  db.query('Select id FROM users WHERE username="' + req.params.username + '"', (err, data) => {
+server.post('/expenses/:user', (req, res) => {
+  db.query('Select id FROM users WHERE username="' + req.params.user + '"', (err, data) => {
     req.body.user_id = data[0].id;
-    console.log(req.body);
     db.query('INSERT INTO expenses SET ?', req.body);
     res.end();
   })
