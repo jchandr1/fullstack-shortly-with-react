@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './static/components/App'
+import App from './components/App'
  
 document.addEventListener('DOMContentLoaded', function() {
   ReactDOM.render(
