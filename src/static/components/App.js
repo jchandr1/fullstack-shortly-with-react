@@ -39,11 +39,12 @@ export default class App extends React.Component {
     .then((response) => {
       if (response.data === false){
         console.log('user does not exist');
-      } else if (response.data === password) {
+      } else if (response.data == password) {
         console.log('logged in');
         this.setState({ loggedIn: true, username: username });
         this.getAllExpenses();
       } else {
+        console.log(typeof(password), typeof(response.data));
         console.log('Username and password do not match');
       }
     }).catch(err => console.log('get users error', err));
