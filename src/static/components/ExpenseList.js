@@ -12,7 +12,7 @@ export default class ExpenseList extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ expenseList: nextProps.expenseList});
+    this.setState({ expenseList: nextProps.expenseList, loggedIn: nextProps.loggedIn });
   }
 
   render() {

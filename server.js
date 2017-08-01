@@ -23,11 +23,17 @@ server.post('/expenses', (req, res) => {
 });
 
 server.get('/users/:user', (req, res) => {
-  console.log(req.params.user);
-  db.query('SELECT password FROM users', (err, data) => res.status(200).send(data));
+  db.query('SELECT password FROM users WHERE username="' + req.params.user +'"', (err, data) => {
+    if (data.length === 0) {
+      res.status(200).send(false);
+    } else {
+      res.status(200).send(data[0].password);
+    }
+  });
 });
 
 server.post('/users', (req, res) => {
+  console.log(req.body);
   db.query('INSERT INTO users SET ?', req.body);
   res.end();
 });

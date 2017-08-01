@@ -12,6 +12,7 @@ export default class ExpenseEntry extends React.Component {
     this.state = {
       getAll: prop.getAll,
       loggedIn: prop.loggedIn,
+      username: prop.username,
       expenseList: [],
       currency: 'USD',
       name: '',
@@ -50,6 +51,10 @@ export default class ExpenseEntry extends React.Component {
         "ZAR",
       ],
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ loggedIn: nextProps.loggedIn });
   }
 
   handleName(event) {

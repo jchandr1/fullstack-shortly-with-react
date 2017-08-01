@@ -14,6 +14,7 @@ export default class App extends React.Component {
     this.state = {
       expenseList: [],
       loggedIn: false,
+      username: '',
     }
 
     this.getAllExpenses()
@@ -26,30 +27,41 @@ export default class App extends React.Component {
     }).catch(err => console.log('get expense error'));
   }
 
-  logIn(username, password) {
-    console.log('username = ', username);
+  logIn(username, password, e) {
     axios.get('/users/' + username)
     .then((response) => {
-      console.log(response.data);
-      if (response.data[0] === password) {
+      if (response.data === false){
+        console.log('user does not exist');
+      } else if (response.data === password) {
         console.log('logged in');
-        this.setState({ loggedIn: true });
+        this.setState({ loggedIn: true, username: username });
       } else {
         console.log('Username and password do not match');
-        this.setState({ loggedIn: false });
       }
     }).catch(err => console.log('get users error', err));
+    e.preventDefault();
   }
 
-  createUser(username, password) {
-    console.log('creating user');
+  createUser(username, password, e) {
+    axios.get('/users/' + username)
+    .then((response) => {
+      if (response.data === false){
+        axios.post('/users', { username, password })
+        .then(() => {
+          this.setState({ loggedIn: true, username: username });
+        })
+      } else {
+        console.log('Username is already taken');
+      }
+    }).catch(err => console.log('get users error', err));
+    e.preventDefault();
   }
 
   render() {
     return (
       <div>
         <Login loggedIn={this.state.loggedIn} logIn={this.logIn} createUser={this.createUser} />
-        <ExpenseEntry loggedIn={this.state.loggedIn} getAll={this.getAllExpenses} />
+        <ExpenseEntry loggedIn={this.state.loggedIn} getAll={this.getAllExpenses} username={this.state.username} />
         <ExpenseList loggedIn={this.state.loggedIn} expenseList={this.state.expenseList} />
       </div>
     );

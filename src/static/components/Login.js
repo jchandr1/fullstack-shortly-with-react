@@ -15,6 +15,10 @@ export default class Login extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ loggedIn: nextProps.loggedIn });
+  }
+
   handleUserame(event) {
     this.setState({username: event.target.value})
   }
@@ -32,8 +36,8 @@ export default class Login extends React.Component {
           <input type="text" value={this.state.username} onChange={this.handleUsername} /><br />
           Password:<br />
           <input type="text" value={this.state.password} onChange={this.handlePassword} /><br /><br />
-          <button onClick={this.state.logIn}>Login</button>
-          <button onClick={this.state.createUser}>Create new User</button>
+          <button onClick={(e)=>this.state.logIn(this.state.username, this.state.password, e)}>Login</button>
+          <button onClick={(e)=>this.state.createUser(this.state.username, this.state.password, e)}>Create new User</button>
         </fieldset>
       </form>
     );
