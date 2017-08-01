@@ -15,10 +15,6 @@ CREATE TABLE expenses (
   currency VARCHAR(3),
   USDVal INT,
   user_id INT,
-  INDEX user_ind (user_id),
-  FOREIGN KEY (user_id)
-    REFERENCES users(id)
-    ON DELETE CASCADE
   PRIMARY KEY (id)
 );
 
@@ -33,5 +29,7 @@ CREATE TABLE users (
   username VARCHAR(50),
   password VARCHAR(50)
 );
+
+ALTER TABLE expenses ADD FOREIGN KEY (user_id) REFERENCES users(id);
 
 INSERT INTO users (username, password) VALUE ("justin", "justin");

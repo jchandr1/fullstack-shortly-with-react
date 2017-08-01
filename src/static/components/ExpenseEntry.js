@@ -54,7 +54,7 @@ export default class ExpenseEntry extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ loggedIn: nextProps.loggedIn });
+    this.setState({ loggedIn: nextProps.loggedIn, username: nextProps.username});
   }
 
   handleName(event) {
@@ -73,7 +73,7 @@ export default class ExpenseEntry extends React.Component {
     axios.get('http://api.fixer.io/latest?symbols=USD,' + this.state.currency)
     .then(response => {
       let USDVal = this.state.cost * response.data.rates.USD / (response.data.rates[this.state.currency] || 1);
-      axios.post('/expenses', {name: this.state.name, cost: this.state.cost, currency: this.state.currency, USDVal: USDVal})
+      axios.post('/expenses/' + this.state.username, { name: this.state.name, cost: this.state.cost, currency: this.state.currency, USDVal: USDVal})
       .then(() => {
         this.setState({ name: '', cost: '', currency: 'USD' });
         this.state.getAll();
